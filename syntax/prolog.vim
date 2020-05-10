@@ -98,7 +98,7 @@ syntax match  prologOpStatement   /indexed\|discontiguous\|dynamic\|module_trans
 syntax region  prologDCGSpecials  start=/{/ end=/}/ contained contains=@prologAll
 
 syntax region  prologTuple        fold start=/\W\zs(/ end=/)/ contained containedin=prologPredicate,prologBody contains=@prologAll
-syntax region  prologPredicate    start=/\<\l\w*\>\ze(/ end=/)/ contains=@prologAll
+syntax region  prologPredicate    start=/\<\l\w*\>\ze(/ end=/)/ contains=@prologAll,prologArgs
 syntax match   prologPredicateWithArity /\<\l\w*\>\/\d\+/ contains=@prologBuiltIn,prologArity
 syntax match   prologArity        contained /\/\d\+/
 syntax cluster prologPredicates   contains=prologPredicate,prologPredicateWithArity
@@ -116,6 +116,8 @@ syntax region  prologQuoted       start=/'/ end=/'/ contains=prologQuotedFormat,
 syntax match   prologErrorVariable /\<\(_\|\u\)\w*\>/
 syntax region  prologErrorTerm    start=/\<\(_\|\u\)\w*\>(/ end=/)/
 
+syntax match   prologArgs         /[:\-,.()]/ contained
+
 """" Highlights
 
 highlight link prologErrorVariable Error
@@ -126,7 +128,7 @@ highlight link prologComment      Comment
 highlight link prologCComment     Comment
 highlight link prologTODO         TODO
 
-highlight link prologAtom         Constant
+highlight link prologAtom         String
 highlight link prologChar         Constant
 highlight link prologVariable     Identifier
 highlight link prologNumber       Number
@@ -139,7 +141,8 @@ highlight link prologRelations    Statement
 highlight link prologQuotedFormat Special
 highlight link prologQuoted       String
 
-highlight link prologPredicate    Normal
+" highlight link prologPredicate    Normal
+highlight link prologPredicate    Function
 highlight link prologPredicateWithArity Normal
 highlight link prologHead         Constant
 highlight link prologHeadWithArgs Normal
@@ -154,6 +157,7 @@ highlight link prologDCGSpecials  Type
 highlight link prologTuple        Type
 highlight link prologDiffList     Type
 
+highlight link prologArgs         Normal
 syn sync minlines=20 maxlines=50
 
 let b:current_syntax = "prolog"
